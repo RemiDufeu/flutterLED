@@ -13,20 +13,20 @@ import 'package:http/http.dart' as http;
 class Home extends StatelessWidget {
   final Reglages reglages;
   final Future<Reglages> Function() resetReglages;
+  final String ipesp;
 
-  const Home(this.reglages, this.resetReglages);
-
-  final apiUrl = 'https://espmockdata.herokuapp.com/reglages';
+  const Home(this.reglages, this.resetReglages, this.ipesp);
 
   powerToggle() async {
-    final response = await http.post(Uri.parse(apiUrl + '/power'), headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    }).then((value) => this.resetReglages());
+    final response = await http.post(Uri.parse(ipesp + '/reglages' + '/power'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }).then((value) => this.resetReglages());
   }
 
   changeLevel(newlevel) async {
-    final response = await http.post(Uri.parse(apiUrl + '/level'),
+    final response = await http.post(Uri.parse(ipesp + '/reglages' + '/level'),
         body: jsonEncode(<String, double>{'level': newlevel}),
         headers: {
           'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ class Home extends StatelessWidget {
   }
 
   changeMode(mode) async {
-    final response = await http.post(Uri.parse(apiUrl + '/mode'),
+    final response = await http.post(Uri.parse(ipesp + '/reglages' + '/mode'),
         body: jsonEncode(<String, String>{'currentMode': mode}),
         headers: {
           'Content-Type': 'application/json',

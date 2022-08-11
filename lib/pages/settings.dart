@@ -8,12 +8,10 @@ import '../dataObject/reglages.dart';
 class Settings extends StatelessWidget {
   Reglages reglages;
   Future<Reglages> Function() resetReglages;
+  final String ipesp;
+  var changeIp;
 
-  Settings({
-    Key? key,
-    required this.reglages,
-    required this.resetReglages,
-  }) : super(key: key);
+  Settings(this.reglages, this.resetReglages, this.ipesp, this.changeIp);
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +20,8 @@ class Settings extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(20),
           child: TextField(
+            controller: TextEditingController(text: this.ipesp),
+            onSubmitted: (value) => this.changeIp(value),
             cursorColor: Colors.white,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(

@@ -49,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _index = 0;
   Reglages _reglages = Reglages.empty();
   var listScreens = null;
+  String ipesp = "https://espmockdata.herokuapp.com";
 
   @override
   void initState() {
@@ -57,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<Reglages> _getReglages() async {
-    const apiUrl = 'https://espmockdata.herokuapp.com/reglages';
+    String apiUrl = ipesp + '/reglages';
 
     final response = await http.get(Uri.parse(apiUrl), headers: {
       'Content-Type': 'application/json',
@@ -81,11 +82,17 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  changeip(ip) {
+    setState(() {
+      ipesp = ip;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var screen = _index == 0
-        ? Home(_reglages, _getReglages)
-        : Settings(reglages: _reglages, resetReglages: _getReglages);
+        ? Home(_reglages, _getReglages, ipesp)
+        : Settings(_reglages, _getReglages, ipesp, changeip);
 
     return Scaffold(
       backgroundColor: Colors.grey[800],
