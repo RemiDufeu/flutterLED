@@ -47,8 +47,7 @@ class HomeButton extends StatelessWidget {
           this.label,
           style: TextStyle(
             fontSize: 18,
-            color:
-                this.actif ? Color.fromARGB(255, 143, 143, 143) : Colors.white,
+            color: this.actif ? Color.fromARGB(255, 43, 43, 43) : Colors.white,
           ),
         ),
       ),

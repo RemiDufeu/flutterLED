@@ -1,9 +1,18 @@
 class Mode {
-  Function action;
+  final String name;
+  final bool streaming;
+  final List<String> color;
 
-  String label;
+  const Mode({
+    required this.name,
+    required this.streaming,
+    required this.color,
+  });
 
-  bool actif;
-
-  Mode(this.label, this.action, this.actif);
+  factory Mode.fromJson(Map<String, dynamic> json) {
+    return Mode(
+        name: json['name'],
+        streaming: json['streaming'],
+        color: List<String>.from(json['color']));
+  }
 }
