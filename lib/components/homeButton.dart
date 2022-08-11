@@ -18,7 +18,7 @@ class HomeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: this.actif ? null : () => {this.action()},
+      onTap: () => this.action(),
       child: Container(
         alignment: Alignment.center,
         margin: EdgeInsets.all(10),
