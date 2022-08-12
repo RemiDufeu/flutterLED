@@ -60,19 +60,31 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<Reglages> _getReglages() async {
     String apiUrl = ipesp + '/reglages';
 
-    final response = await http.get(Uri.parse(apiUrl), headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    });
-
-    if (response.statusCode == 200) {
-      Reglages reglagesJson = Reglages.fromJson(jsonDecode(response.body));
-      setState(() {
-        _reglages = reglagesJson;
+    try {
+      final response = await http.get(Uri.parse(apiUrl), headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       });
-      return reglagesJson;
-    } else {
-      throw Exception('Failed to load Reglages');
+
+      if (response.statusCode == 200) {
+        Reglages reglagesJson = Reglages.fromJson(jsonDecode(response.body));
+        setState(() {
+          _reglages = reglagesJson;
+        });
+        return reglagesJson;
+      } else {
+        setState(() {
+          _reglages = Reglages.empty();
+        });
+        print('Request failed with status: ${response.statusCode}.');
+        return _reglages;
+      }
+    } catch (e) {
+      print(e);
+      setState(() {
+        _reglages = Reglages.empty();
+      });
+      return _reglages;
     }
   }
 
@@ -91,7 +103,16 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     var screen = _index == 0
-        ? Home(_reglages, _getReglages, ipesp)
+        ? (_reglages.modes.length == 0
+            ? Center(
+                child: Text(
+                "ESP non trouvé",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
+              ))
+            : Home(_reglages, _getReglages, ipesp))
         : Settings(_reglages, _getReglages, ipesp, changeip);
 
     return Scaffold(
